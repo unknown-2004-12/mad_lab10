@@ -1,18 +1,19 @@
-import 'package:flutter/material.dart'; // Import the material packag
+import 'package:flutter/material.dart'; 
+
 void main() {
   runApp(MaterialApp(
-    home : AnimatedLogoScreen(),
-    debugShowCheckedModeBanner: false, // Disable debug banner
-  )); // Entry point of app
+    home: AnimatedLogoScreen(),
+    debugShowCheckedModeBanner: false,
+  ));
 }
-// -------------------- MAIN ANIMATION SCREEN --------------------
+
 class AnimatedLogoScreen extends StatefulWidget {
   const AnimatedLogoScreen({super.key});
 
   @override
   State<AnimatedLogoScreen> createState() => _AnimatedLogoScreenState();
 }
-// -------------------- ANIMATED LOGO SCREEN STATE --------------------
+
 class _AnimatedLogoScreenState extends State<AnimatedLogoScreen> with TickerProviderStateMixin {
   late final AnimationController _rotationController = AnimationController(
     vsync: this,
@@ -21,7 +22,7 @@ class _AnimatedLogoScreenState extends State<AnimatedLogoScreen> with TickerProv
 
   late final Animation<double> _rotationAnimation = Tween(
     begin: 0.0,
-    end: 2 * 3.1415, // 2 * pi for full rotation
+    end: 2 * 3.1415,
   ).animate(
     CurvedAnimation(parent: _rotationController, curve: Curves.linear),
   );
@@ -40,7 +41,7 @@ class _AnimatedLogoScreenState extends State<AnimatedLogoScreen> with TickerProv
 
   @override
   void dispose() {
-    _rotationController.dispose(); // Clean up
+    _rotationController.dispose();
     _opacityController.dispose();
     super.dispose();
   }
@@ -48,25 +49,24 @@ class _AnimatedLogoScreenState extends State<AnimatedLogoScreen> with TickerProv
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.blueAccent, // Background color
+      backgroundColor: Colors.blueAccent,
       appBar: AppBar(
-        title: Text("Animated Logo"), // Title
+        title: Text("Animated Logo"),
         centerTitle: true,
       ),
       body: Center(
         child: AnimatedBuilder(
-          animation: _rotationController, // Rebuild UI every tick of rotation
+          animation: _rotationController,
           builder: (context, child) {
-            return FadeTransition( // Handles fade in
+            return FadeTransition(
               opacity: _opacityAnimation,
-              child: Transform.rotate( // Handles rotation
+              child: Transform.rotate(
                 angle: _rotationAnimation.value,
                 child: child,
               ),
             );
           },
-          // child: FlutterLogo(size: 150), // Flutter logo to animate
-          child: Image.asset('assets/logo.png',width: 150, height: 150,),
+          child: Image.asset('assets/logo.png', width: 150, height: 150),
         ),
       ),
     );
